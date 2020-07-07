@@ -22,7 +22,6 @@ class IndexController
 
     public function home()
     {
-
         View::render("RegisterView");
     }
 }
