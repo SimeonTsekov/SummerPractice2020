@@ -22,20 +22,37 @@ class UserController
         }
     }
 
-    public function ValidatePassword(){
-        return $this->credentials[3] === $this->credentials[2];
-    }
-
     public function RegisterUser(){
         $this->SetCredentials();
-        $service = new UserService();
-        if($this->ValidatePassword()){
-            View::render("MainView");
-            $service->RegisterUser($this->credentials);
-            var_dump($this->credentials);
-        } else {
-            View::render("RegisterView");
-            echo "Please confirm your password!";
+
+        if(!$this->ValidatePasswordLength($this->credentials[2])){
+            View::render('RegisterView');
+            echo 'Password must be between 8 and 16 symbols!';
+            return;
         }
+
+        if(!$this->ValidatePassword($this->credentials)){
+            View::render('RegisterView');
+            echo 'Please confirm your password!';
+            return;
+        }
+
+        $service = new UserService();
+        $result = $service->RegisterUser($this->credentials);
+
+        if(!$result['success']){
+            View::render('RegisterView');
+            echo $result['msg'];
+        }
+
+        View::render("MainView");
+    }
+
+    public function ValidatePassword($credentials){
+        return $credentials[2] === $credentials[3];
+    }
+
+    public function ValidatePasswordLength($password){
+        return (strlen($password)>=8 && strlen($password)<=16);
     }
 }

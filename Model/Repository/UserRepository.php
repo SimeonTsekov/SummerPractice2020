@@ -17,8 +17,29 @@ class UserRepository
                 VALUES (?,?,?,?)';
 
         $prepared = $pdo->prepare($sql);
-        $result = $prepared->execute([$username, $password, $email, false]);
+        return $prepared->execute([$username, $password, $email, false]);
 
-        return $result;
+    }
+
+    public function CheckUserByEmail($email){
+        $pdo = DBManager::getInstance()->getConnection();
+
+        $sql = 'SELECT * FROM `users` WHERE `Email` LIKE ?';
+
+        $prepared = $pdo->prepare($sql);
+        $prepared->execute([$email]);
+
+        return $prepared->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public function CheckUserByUsername($username){
+        $pdo = DBManager::getInstance()->getConnection();
+
+        $sql = 'SELECT * FROM `users` WHERE `Username` LIKE ?';
+
+        $prepared = $pdo->prepare($sql);
+        $prepared->execute([$username]);
+
+        return $prepared->fetch(\PDO::FETCH_ASSOC);
     }
 }

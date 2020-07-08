@@ -5,28 +5,25 @@ spl_autoload_register(function ($class) {
     require_once $class;
 });
 
-LoadTargetAndAction("index", "home");
 
-function LoadTargetAndAction($index, $action){
-    $fileNotFoundFlag = false;
-    $controllerName = isset($_GET["target"]) ? $_GET["target"] : $index;
-    $methodName = isset($_GET["action"]) ? $_GET["action"] : $action;
+$fileNotFoundFlag = false;
+$controllerName = isset($_GET["target"]) ? $_GET["target"] : "index";
+$methodName = isset($_GET["action"]) ? $_GET["action"] : "home";
 
-    $controllerClassName = "\\Controller\\" . ucfirst($controllerName) . "Controller";
+$controllerClassName = "\\Controller\\" . ucfirst($controllerName) . "Controller";
 
-    if (class_exists($controllerClassName)) {
-        $controller = new $controllerClassName();
-        if (method_exists($controller, $methodName)) {
-            $controller->$methodName();
-        } else {
-            $controller = new Controller\IndexController();
-            $controller->error(404);
-        }
+if (class_exists($controllerClassName)) {
+    $controller = new $controllerClassName();
+    if (method_exists($controller, $methodName)) {
+        $controller->$methodName();
     } else {
-        $fileNotFoundFlag = true;
-    }
-
-    if ($fileNotFoundFlag) {
+        $controller = new Controller\IndexController();
         $controller->error(404);
     }
+} else {
+    $fileNotFoundFlag = true;
+}
+
+if ($fileNotFoundFlag) {
+    $controller->error(404);
 }
