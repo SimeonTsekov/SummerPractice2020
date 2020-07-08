@@ -1,7 +1,3 @@
-<?php
-
-namespace View;
-?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -12,7 +8,7 @@ namespace View;
     <title>Document</title>
 </head>
 <body>
-    <form action="index.php?target=user&action=RegisterUser" method="post">
+    <form action="index.php?target=user&action=Register" method="post">
         <div>
             <h1>Register</h1>
             <p>Please fill in this form to create an account.</p>

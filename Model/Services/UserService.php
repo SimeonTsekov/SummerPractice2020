@@ -16,12 +16,12 @@ class UserService
 
         $repo = new UserRepository();
 
-        if($repo->CheckUserByEmail($credentials[1])){
+        if($repo->CheckUserByEmail($credentials['email'])){
             $result['msg'] = 'This user already exists!';
             return $result;
         }
 
-        if($repo->CheckUserByUsername($credentials[0])){
+        if($repo->GetUserByUsername($credentials['username'])){
             $result['msg'] = 'Username already taken!';
             return $result;
         }
@@ -40,11 +40,11 @@ class UserService
 
         $repo = new UserRepository();
 
-        $row = $repo->GetUserByUsername($username);
+        $user = $repo->GetUserByUsername($username);
 
-        if(password_verify($password, $row['Password'])){
+        if(password_verify($password, $user['Password'])){
             $result['success'] = true;
-            $result['id'] = $row['UserId'];
+            $result['id'] = $user['UserId'];
             $result['msg'] = 'User successfully logged in!';
         } else {
             $result['id'] = null;

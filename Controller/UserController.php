@@ -13,19 +13,17 @@ class UserController
 
     public function SetCredentials(){
         if(isset($_POST['create'])){
-            $username = $_POST['usn'];
-            $email = $_POST['email'];
-            $password = $_POST['psw'];
-            $confirmedPassword = $_POST['cpsw'];
-
-            $this->credentials = [$username, $email, $password, $confirmedPassword];
+            $this->credentials['username'] = $_POST['usn'];
+            $this->credentials['email'] = $_POST['email'];
+            $this->credentials['password'] = $_POST['psw'];
+            $this->credentials['confirmedPassword'] = $_POST['cpsw'];
         }
     }
 
-    public function RegisterUser(){
+    public function Register(){
         $this->SetCredentials();
 
-        if(!$this->ValidatePasswordLength($this->credentials[2])){
+        if(!$this->ValidatePasswordLength($this->credentials['password'])){
             View::render('RegisterView');
             echo 'Password must be between 8 and 16 symbols!';
             return;
@@ -49,7 +47,7 @@ class UserController
         View::render("LoginView");
     }
 
-    public function LogUser(){
+    public function Log(){
         $username = $_POST['usn'];
         $password = $_POST['psw'];
 
@@ -75,7 +73,7 @@ class UserController
     }
 
     public function ValidatePassword($credentials){
-        return $credentials[2] === $credentials[3];
+        return $credentials['password'] === $credentials['confirmedPassword'];
     }
 
     public function ValidatePasswordLength($password){

@@ -6,6 +6,7 @@ namespace Controller;
 
 use Core\View;
 
+
 class IndexController
 {
     public function error($code)

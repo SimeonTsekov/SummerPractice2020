@@ -10,7 +10,7 @@
 <body>
 <div>
     <h1>Main Page</h1>
-    <a href="index.php?target=index&action=home">Log Out</a>.</p>
+    <a href="index.php?target=index&action=home">Log Out</a>
 </div>
 </body>
 </html>

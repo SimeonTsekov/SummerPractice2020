@@ -1,8 +1,3 @@
-<?php
-
-namespace View;
-?>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,7 +9,7 @@ namespace View;
 </head>
 <body>
 <div>
-    <form action="index.php?target=user&action=LogUser" method="post">
+    <form action="index.php?target=user&action=Log" method="post">
         <h1>Sign In</h1>
         <hr>
             <div>
