@@ -62,10 +62,15 @@ class UserController
             return;
         }
 
-        session_start();
-        $_SESSION['UseId'] = $result['id'];
+        if(session_status() == PHP_SESSION_NONE) {
+            ini_set('session.cookie_lifetime', 60 * 60 * 24 * 365);
+            ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 365);
+            session_start();
+        }
+        $_SESSION['UserId'] = $result['id'];
+        $_SESSION['Logged'] = true;
         View::render("MainView");
-        var_dump($_SESSION['UseId']);
+        var_dump($_SESSION['UserId']);
 
     }
 

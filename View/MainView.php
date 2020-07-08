@@ -8,6 +8,9 @@
     <title>Document</title>
 </head>
 <body>
+<div>
     <h1>Main Page</h1>
+    <a href="index.php?target=index&action=home">Log Out</a>.</p>
+</div>
 </body>
 </html>

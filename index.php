@@ -8,7 +8,13 @@ spl_autoload_register(function ($class) {
 
 $fileNotFoundFlag = false;
 $controllerName = isset($_GET["target"]) ? $_GET["target"] : "index";
-$methodName = isset($_GET["action"]) ? $_GET["action"] : "home";
+
+session_start();
+if($_SESSION['Logged']){
+    $methodName = isset($_GET["action"]) ? $_GET["action"] : "LoadMainView";
+} else {
+    $methodName = isset($_GET["action"]) ? $_GET["action"] : "home";
+}
 
 $controllerClassName = "\\Controller\\" . ucfirst($controllerName) . "Controller";
 

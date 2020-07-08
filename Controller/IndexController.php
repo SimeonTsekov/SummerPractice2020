@@ -23,9 +23,17 @@ class IndexController
     public function home()
     {
         View::render("RegisterView");
+        unset($_SESSION['UserId']);
+
+        $_SESSION['Logged'] = false;
     }
 
     public function LogIn(){
         View::render('LoginView');
+    }
+
+    public function LoadMainView(){
+        View::render('MainView');
+        var_dump($_SESSION['UserId']);
     }
 }
