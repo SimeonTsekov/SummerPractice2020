@@ -43,9 +43,30 @@ class UserController
         if(!$result['success']){
             View::render('RegisterView');
             echo $result['msg'];
+            return;
         }
 
+        View::render("LoginView");
+    }
+
+    public function LogUser(){
+        $username = $_POST['usn'];
+        $password = $_POST['psw'];
+
+        $service = new UserService();
+        $result = $service->LogUser($username, $password);
+
+        if(!$result['success']){
+            View::render('LoginView');
+            echo $result['msg'];
+            return;
+        }
+
+        session_start();
+        $_SESSION['UseId'] = $result['id'];
         View::render("MainView");
+        var_dump($_SESSION['UseId']);
+
     }
 
     public function ValidatePassword($credentials){

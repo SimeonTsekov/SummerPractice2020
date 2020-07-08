@@ -13,7 +13,7 @@ namespace View;
 </head>
 <body>
     <form action="index.php?target=user&action=RegisterUser" method="post">
-        <div class="container">
+        <div>
             <h1>Register</h1>
             <p>Please fill in this form to create an account.</p>
             <hr>
@@ -43,8 +43,8 @@ namespace View;
             <input type="submit" name="create" value="Sign Up">
         </div>
 
-        <div class="container signin">
-            <p>Already have an account? <a href="#">Sign in</a>.</p>
+        <div>
+            <p>Already have an account? <a href="index.php?target=index&action=LogIn">Sign in</a>.</p>
         </div>
     </form>
 </body>

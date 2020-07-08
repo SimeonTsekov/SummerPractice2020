@@ -32,4 +32,25 @@ class UserService
             return $result;
         }
     }
+
+    public function LogUser($username, $password){
+        $result = [
+            'success' => false
+        ];
+
+        $repo = new UserRepository();
+
+        $row = $repo->GetUserByUsername($username);
+
+        if(password_verify($password, $row['Password'])){
+            $result['success'] = true;
+            $result['id'] = $row['UserId'];
+            $result['msg'] = 'User successfully logged in!';
+        } else {
+            $result['id'] = null;
+            $result['msg'] = 'Invalid credentials!';
+        }
+
+        return $result;
+    }
 }

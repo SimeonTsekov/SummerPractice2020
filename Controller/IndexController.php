@@ -24,4 +24,8 @@ class IndexController
     {
         View::render("RegisterView");
     }
+
+    public function LogIn(){
+        View::render('LoginView');
+    }
 }
