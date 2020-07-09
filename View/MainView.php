@@ -9,7 +9,22 @@
 </head>
 <body>
 <div>
+    <?php
+    $resourceController = new \Controller\ResourceController();
+    $resources = $resourceController->GetResources();
+
+    $gold = $resources['gold'];
+    $food = $resources['food'];
+    $wood = $resources['wood'];
+
+    ?>
+
     <h1>Main Page</h1>
+    <div>
+        <p>Gold: <?= $gold['Amount']?></p>
+        <p>Food: <?= $food['Amount']?></p>
+        <p>Wood: <?= $wood['Amount']?></p>
+    </div>
     <a href="index.php?target=index&action=home">Log Out</a>
 </div>
 </body>

@@ -3,12 +3,15 @@
 
 namespace Model\Repository;
 
+define("MINEID", 1);
+define("FARMID", 2);
+define("LUMBERCAMPID", 3);
 
 class UserRepository
 {
     public function RegisterUser(array $credentials){
         $username = $credentials['username'];
-        $email = $credentials['password'];
+        $email = $credentials['email'];
         $password = password_hash($credentials['password'], PASSWORD_BCRYPT);
 
         $pdo = DBManager::getInstance()->getConnection();
@@ -41,5 +44,52 @@ class UserRepository
         $prepared->execute([$username]);
 
         return $prepared->fetch();
+    }
+
+    public function GetCurrentUserIds(){
+        $pdo = DBManager::getInstance()->getConnection();
+
+        $sql = 'SELECT `UserId` FROM `users`';
+
+        $prepared = $pdo->prepare($sql);
+        $prepared->execute([]);
+
+        $result = $prepared->fetchAll();
+        $ids = [];
+
+        for($i=0; $i<count($result); $i++){
+            array_push($ids, $result[$i]['UserId']);
+        }
+
+        return $ids;
+    }
+
+    public function GetUserProductionAmounts($userId){
+        $pdo = DBManager::getInstance()->getConnection();
+        $amounts['gold'] = 0;
+        $amounts['food'] = 0;
+        $amounts['wood'] = 0;
+
+        $sql = 'SELECT `ProduceAmount` FROM `userbuildings` WHERE `UserId` = ? AND `BuildingId` = ?';
+
+        $prepared = $pdo->prepare($sql);
+        $prepared->execute([$userId, MINEID]);
+
+        if($value = $prepared->fetch()){
+            $amounts['gold'] = (int)$value['ProduceAmount'];
+        }
+
+        $prepared->execute([$userId, FARMID]);
+
+        if($value = $prepared->fetch()) {
+            $amounts['food'] = (int)$value['ProduceAmount'];
+        }
+
+        $prepared->execute([$userId, LUMBERCAMPID]);
+
+        if($value = $prepared->fetch()) {
+            $amounts['wood'] = (int)$value['ProduceAmount'];
+        }
+        return $amounts;
     }
 }
