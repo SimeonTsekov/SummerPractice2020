@@ -3,13 +3,12 @@
 
 namespace Model\Repository;
 
-define("GOLDID", 1);
-define("FOODID", 2);
-define("WOODID", 3);
 
-class
-ResourceRepository
-{
+class ResourceRepository{
+    const GOLDID = 1;
+    const FOODID = 2;
+    const WOODID = 3;
+
     public function InitializePlayerResources($UserId){
         $pdo = DBManager::getInstance()->getConnection();
 
@@ -26,7 +25,7 @@ ResourceRepository
         $sql = 'SELECT `Amount` FROM `userresources` WHERE `UserId` = ? AND `ResourceId` = ?';
 
         $prepared = $pdo->prepare($sql);
-        $prepared->execute([$UserId, GOLDID]);
+        $prepared->execute([$UserId, self::GOLDID]);
 
         return $prepared->fetch();
     }
@@ -37,7 +36,7 @@ ResourceRepository
         $sql = 'SELECT `Amount` FROM `userresources` WHERE `UserId` = ? AND `ResourceId` = ?';
 
         $prepared = $pdo->prepare($sql);
-        $prepared->execute([$UserId, FOODID]);
+        $prepared->execute([$UserId, self::FOODID]);
 
         return $prepared->fetch();
     }
@@ -48,7 +47,7 @@ ResourceRepository
         $sql = 'SELECT `Amount` FROM `userresources` WHERE `UserId` = ? AND `ResourceId` = ?';
 
         $prepared = $pdo->prepare($sql);
-        $prepared->execute([$UserId, WOODID]);
+        $prepared->execute([$UserId, self::WOODID]);
 
         return $prepared->fetch();
     }
@@ -72,8 +71,8 @@ ResourceRepository
             $wood = $amounts['wood'];
         }
 
-        $prepared->execute([(int)$gold, $UserId, GOLDID]);
-        $prepared->execute([(int)$food, $UserId, FOODID]);
-        $prepared->execute([(int)$wood, $UserId, WOODID]);
+        $prepared->execute([(int)$gold, $UserId, self::GOLDID]);
+        $prepared->execute([(int)$food, $UserId, self::FOODID]);
+        $prepared->execute([(int)$wood, $UserId, self::WOODID]);
     }
 }

@@ -3,12 +3,12 @@
 
 namespace Model\Repository;
 
-define("MINEID", 1);
-define("FARMID", 2);
-define("LUMBERCAMPID", 3);
 
-class UserRepository
-{
+class UserRepository{
+    const MINEID = 1;
+    const FARMID = 2;
+    const LUMBERCAMPID = 3;
+
     public function RegisterUser(array $credentials){
         $username = $credentials['username'];
         $email = $credentials['email'];
@@ -73,19 +73,19 @@ class UserRepository
         $sql = 'SELECT `ProduceAmount` FROM `userbuildings` WHERE `UserId` = ? AND `BuildingId` = ?';
 
         $prepared = $pdo->prepare($sql);
-        $prepared->execute([$userId, MINEID]);
+        $prepared->execute([$userId, self::MINEID]);
 
         if($value = $prepared->fetch()){
             $amounts['gold'] = (int)$value['ProduceAmount'];
         }
 
-        $prepared->execute([$userId, FARMID]);
+        $prepared->execute([$userId, self::FARMID]);
 
         if($value = $prepared->fetch()) {
             $amounts['food'] = (int)$value['ProduceAmount'];
         }
 
-        $prepared->execute([$userId, LUMBERCAMPID]);
+        $prepared->execute([$userId, self::LUMBERCAMPID]);
 
         if($value = $prepared->fetch()) {
             $amounts['wood'] = (int)$value['ProduceAmount'];

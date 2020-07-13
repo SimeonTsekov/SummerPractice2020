@@ -12,7 +12,7 @@ $fileNotFoundFlag = false;
 $controllerName = isset($_GET["target"]) ? $_GET["target"] : "index";
 
 session_start();
-if(session_status()==PHP_SESSION_ACTIVE && $_SESSION['Logged']){
+if(isset($_SESSION['Logged']) && $_SESSION['Logged']){
     $methodName = isset($_GET["action"]) ? $_GET["action"] : "LoadMainView";
 } else {
     $methodName = isset($_GET["action"]) ? $_GET["action"] : "home";

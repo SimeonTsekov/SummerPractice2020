@@ -6,6 +6,8 @@ namespace Controller;
 
 use Core\ResourceCollector;
 use Core\View;
+use Model\Repository\BuildingRepository;
+use Model\Services\BuildingService;
 use Model\Services\ResourceService;
 use Model\Services\UserService;
 
@@ -39,6 +41,7 @@ class UserController
         $service = new UserService();
         $result = $service->RegisterUser($this->credentials);
         $resourceService = new ResourceService();
+        $buildingService = new BuildingService();
 
         if(!$result['success']){
             View::render('RegisterView');
@@ -48,6 +51,7 @@ class UserController
 
         $result = $service->LogUser($this->credentials['username'], $this->credentials['password']);
         $resourceService->InitializeUserResources($result['id']);
+        $buildingService->InitializeUserBuildings($result['id']);
 
         View::render("LoginView");
     }

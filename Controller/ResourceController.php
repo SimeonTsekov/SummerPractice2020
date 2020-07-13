@@ -12,6 +12,7 @@ class ResourceController
         $service = new ResourceService();
         $resources = $service->GetUserResources($_SESSION['UserId']);
 
+        echo json_encode($resources);
         return $resources;
     }
 }
