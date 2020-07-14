@@ -4,7 +4,11 @@
 namespace Controller;
 
 
+use Core\ResourceCollector;
 use Core\View;
+use Model\Repository\BuildingRepository;
+use Model\Services\BuildingService;
+use Model\Services\ResourceService;
 use Model\Services\UserService;
 
 class UserController
@@ -22,7 +26,6 @@ class UserController
 
     public function Register(){
         $this->SetCredentials();
-
         if(!$this->ValidatePasswordLength($this->credentials['password'])){
             View::render('RegisterView');
             echo 'Password must be between 8 and 16 symbols!';
@@ -37,12 +40,18 @@ class UserController
 
         $service = new UserService();
         $result = $service->RegisterUser($this->credentials);
+        $resourceService = new ResourceService();
+        $buildingService = new BuildingService();
 
         if(!$result['success']){
             View::render('RegisterView');
             echo $result['msg'];
             return;
         }
+
+        $result = $service->LogUser($this->credentials['username'], $this->credentials['password']);
+        $resourceService->InitializeUserResources($result['id']);
+        $buildingService->InitializeUserBuildings($result['id']);
 
         View::render("LoginView");
     }
@@ -68,8 +77,6 @@ class UserController
         $_SESSION['UserId'] = $result['id'];
         $_SESSION['Logged'] = true;
         View::render("MainView");
-        var_dump($_SESSION['UserId']);
-
     }
 
     public function ValidatePassword($credentials){

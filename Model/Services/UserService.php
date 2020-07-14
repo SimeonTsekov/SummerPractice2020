@@ -53,4 +53,42 @@ class UserService
 
         return $result;
     }
+
+    public function ReturnUserIds(){
+        $result = [
+            'success' => false
+        ];
+
+        $repo = new UserRepository();
+
+        if($ids = $repo->GetCurrentUserIds()){
+            $result['success'] = true;
+            $result['msg'] = 'Ids successfully fetched';
+            $result['ids'] = $ids;
+        } else {
+            $result['ids'] = null;
+            $result['msg'] = 'There was an error!';
+        }
+
+        return $result;
+    }
+
+    public function ReturnProducedAmounts($userId){
+        $result = [
+            'success' => false
+        ];
+
+        $repo = new UserRepository();
+
+        if($amounts = $repo->GetUserProductionAmounts($userId)){
+            $result['success'] = true;
+            $result['msg'] = 'Amounts successfully fetched';
+            $result['amounts'] = $amounts;
+        } else {
+            $result['ids'] = null;
+            $result['msg'] = 'There was an error!';
+        }
+
+        return $result;
+    }
 }

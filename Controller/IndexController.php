@@ -5,6 +5,7 @@ namespace Controller;
 
 
 use Core\View;
+use Model\Services\UserService;
 
 
 class IndexController
@@ -35,6 +36,7 @@ class IndexController
 
     public function LoadMainView(){
         View::render('MainView');
-        var_dump($_SESSION['UserId']);
+        $service = new UserService();
+        $service->ReturnUserIds();
     }
 }

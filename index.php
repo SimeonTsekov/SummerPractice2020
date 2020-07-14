@@ -2,7 +2,9 @@
 
 spl_autoload_register(function ($class) {
     $class = str_replace("\\", DIRECTORY_SEPARATOR, $class) . ".php";
-    require_once $class;
+    if (file_exists($class)) {
+        require_once $class;
+    }
 });
 
 
@@ -10,7 +12,7 @@ $fileNotFoundFlag = false;
 $controllerName = isset($_GET["target"]) ? $_GET["target"] : "index";
 
 session_start();
-if($_SESSION['Logged']){
+if(isset($_SESSION['Logged']) && $_SESSION['Logged']){
     $methodName = isset($_GET["action"]) ? $_GET["action"] : "LoadMainView";
 } else {
     $methodName = isset($_GET["action"]) ? $_GET["action"] : "home";
