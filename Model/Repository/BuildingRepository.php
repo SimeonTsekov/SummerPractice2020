@@ -9,6 +9,7 @@ class BuildingRepository
     const MINEID = 1;
     const FARMID = 2;
     const LUMBERCAMPID = 3;
+
     public function InitializePlayerBuildings($UserId){
         $pdo = DBManager::getInstance()->getConnection();
 
@@ -19,36 +20,24 @@ class BuildingRepository
         return $prepared->execute([$UserId, $UserId, $UserId]);
     }
 
-    public function GetUserMineInfo($UserId){
+    public function GetUserBuildingInfo($UserId, $BuildingId){
         $pdo = DBManager::getInstance()->getConnection();
 
         $sql = 'SELECT `Level`, `UpgradeCost`, `ProduceAmount` FROM `userbuildings` WHERE `UserId` = ? AND `BuildingId` = ?';
 
         $prepared = $pdo->prepare($sql);
-        $prepared->execute([$UserId, self::MINEID]);
+        $prepared->execute([$UserId, $BuildingId]);
 
         return $prepared->fetch();
     }
 
-    public function GetUserFarmInfo($UserId){
+    public function UpgradeBuilding($UserId, $BuildingId){
         $pdo = DBManager::getInstance()->getConnection();
 
-        $sql = 'SELECT `Level`, `UpgradeCost`, `ProduceAmount` FROM `userbuildings` WHERE `UserId` = ? AND `BuildingId` = ?';
+        $sql = 'UPDATE `userbuildings` SET `Level` = `Level` + 1, `UpgradeCost` = `UpgradeCost` * 2, `ProduceAmount` = `ProduceAmount` * 2 
+WHERE `UserId` = ? AND `BuildingId` = ?';
 
         $prepared = $pdo->prepare($sql);
-        $prepared->execute([$UserId, self::FARMID]);
-
-        return $prepared->fetch();
-    }
-
-    public function GetUserLumberMillInfo($UserId){
-        $pdo = DBManager::getInstance()->getConnection();
-
-        $sql = 'SELECT `Level`, `UpgradeCost`, `ProduceAmount` FROM `userbuildings` WHERE `UserId` = ? AND `BuildingId` = ?';
-
-        $prepared = $pdo->prepare($sql);
-        $prepared->execute([$UserId, self::LUMBERCAMPID]);
-
-        return $prepared->fetch();
+        $prepared->execute([$UserId, $BuildingId]);
     }
 }

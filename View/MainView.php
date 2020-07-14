@@ -18,15 +18,15 @@
         </div>
         <div>
             <p>Gold Mine: Level <span  id="mineLevel"></span></p>
-            <button class="upgrade">Upgrade Mine!</button>
+            <button id="upgradeMine">Upgrade Mine!</button>
         </div>
         <div>
             <p>Farm: Level <span  id="farmLevel"></span></p>
-            <button class="upgrade">Upgrade Farm!</button>
+            <button id="upgradeFarm">Upgrade Farm!</button>
         </div>
         <div>
             <p>Lumber Camp: Level <span  id="lumberCampLevel"></span></p>
-            <button class="upgrade">Upgrade Lumber Camp!</button>
+            <button id="upgradeLumberCamp">Upgrade Lumber Camp!</button>
         </div>
         <div>
             <a href="index.php?target=index&action=home">Log Out</a>
@@ -35,7 +35,21 @@
 
     <script>
         $(document).ready(function(){
-            $(".upgrade").click(function () {
+            $("#upgradeMine").click(function () {
+                upgradeMine();
+                getResources();
+                getLevels();
+            })
+
+            $("#upgradeFarm").click(function () {
+                upgradeFarm();
+                getResources();
+                getLevels();
+            })
+
+            $("#upgradeLumberCamp").click(function () {
+                upgradeLumberCamp();
+                getResources();
                 getLevels();
             })
 
@@ -69,6 +83,24 @@
                     var lumberLevel = result.lumber;
                     $('#lumberCampLevel').html(lumberLevel);
                 }
+            });
+        }
+
+        function upgradeMine(){
+            $.ajax({
+                url: 'index.php?target=building&action=UpgradeMine'
+            });
+        }
+
+        function upgradeFarm(){
+            $.ajax({
+                url: 'index.php?target=building&action=UpgradeFarm'
+            });
+        }
+
+        function upgradeLumberCamp(){
+            $.ajax({
+                url: 'index.php?target=building&action=UpgradeLumberCamp'
             });
         }
 

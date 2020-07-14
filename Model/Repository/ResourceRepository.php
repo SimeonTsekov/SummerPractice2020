@@ -55,7 +55,7 @@ class ResourceRepository{
     public function IncrementValues($UserId, $amounts){
         $pdo = DBManager::getInstance()->getConnection();
 
-        $sql = 'UPDATE `userresources` SET `Amount` = `Amount` + ? WHERE `UserId` = ? AND  `ResourceId` = ?';
+        $sql = 'UPDATE `userresources` SET `Amount` = `Amount` + ? WHERE `UserId` = ? AND `ResourceId` = ?';
 
         $prepared = $pdo->prepare($sql);
 
@@ -74,5 +74,14 @@ class ResourceRepository{
         $prepared->execute([(int)$gold, $UserId, self::GOLDID]);
         $prepared->execute([(int)$food, $UserId, self::FOODID]);
         $prepared->execute([(int)$wood, $UserId, self::WOODID]);
+    }
+
+    public function DecrementGold($UserId, $amount){
+        $pdo = DBManager::getInstance()->getConnection();
+
+        $sql = 'UPDATE `userresources` SET `Amount` = `Amount` - ? WHERE `UserId` = ? AND `ResourceId` = ?';
+
+        $prepared = $pdo->prepare($sql);
+        $prepared->execute([(int)$amount, $UserId, self::GOLDID]);
     }
 }
